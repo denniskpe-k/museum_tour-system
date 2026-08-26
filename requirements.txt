@@ -1,0 +1,20 @@
+SQLAlchemy>=2.0
+pytest>=7.0
+kivy>=2.3
+Pillow>=10.0
+opencv-python>=4.8  # optional: enables real webcam capture; app falls back gracefully without it
+plyer>=2.1  # optional: enables the OS-native email compose window from the Share popup;
+            # app falls back to a mailto: link and works fine without it
+ffpyplayer>=4.5  # optional: enables real .mp4 playback in the Media popup's Video tab;
+                 # see MEDIA_GUIDE.md. Without it, real video files won't play (a fallback
+                 # preview or a "not added yet" message is shown instead).
+
+# Note: real audio narration (assets/audio/*.wav) and the animated video
+# frames (assets/video_frames/) are pre-generated and shipped with this
+# project — no extra runtime dependency is needed to play them back.
+# Regenerating them requires the offline TTS tool `espeak-ng` (a system
+# binary, not a pip package) to be installed on whichever machine runs
+# services/audio_generator.py.
+#
+# See MEDIA_GUIDE.md for how to add real photos/video/audio for every
+# tour stop, and which filenames the app already expects.
