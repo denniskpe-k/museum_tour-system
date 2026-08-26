@@ -23,7 +23,7 @@ version = 1.0
 # later only if you specifically need real device-camera capture or
 # real .mp4 playback on Android, and are prepared for a much longer,
 # less reliable build.
-requirements = python3==3.11.9,hostpython3==3.11.9,kivy==2.3.0,sqlalchemy,pillow,plyer
+requirements = python3==3.11.9,hostpython3==3.11.9,kivy==2.3.0,sqlalchemy,pillow
 
 orientation = portrait
 fullscreen = 0
