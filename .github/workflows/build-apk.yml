@@ -25,15 +25,30 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Cache Buildozer global directory (speeds up later builds)
+      - name: Cache Android SDK/NDK downloads (safe to reuse across spec changes)
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.buildozer
-            .buildozer
-          key: buildozer-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
+          path: ~/.buildozer
+          key: buildozer-sdk-ndk-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
           restore-keys: |
-            buildozer-${{ runner.os }}-
+            buildozer-sdk-ndk-${{ runner.os }}-
+
+      # No restore-keys here, deliberately: this directory holds the
+      # actual per-arch build state (venvs, compiled recipes, pip
+      # installs). Falling back to a cache built under a *different*
+      # buildozer.spec (e.g. an older NDK/Python pin from a previous
+      # failed attempt) can leave mismatched files behind — this is
+      # exactly what caused the "cannot import name 'open_rich_spinner'"
+      # pip crash: a stale pip install from an earlier NDK r28c attempt
+      # got restored into this directory and corrupted pip's imports
+      # once python-for-android pointed PYTHONPATH at it. An exact-only
+      # key means a buildozer.spec change always starts this directory
+      # genuinely fresh instead of risking that again.
+      - name: Cache Buildozer project build state (exact spec match only)
+        uses: actions/cache@v4
+        with:
+          path: .buildozer
+          key: buildozer-build-${{ runner.os }}-${{ hashFiles('buildozer.spec') }}
 
       - name: Install Buildozer and Android build dependencies
         run: |
