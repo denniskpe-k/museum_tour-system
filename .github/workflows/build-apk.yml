@@ -25,6 +25,12 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Set up Java 17 for Gradle 
+        uses: actions/setup-java@v4 
+        with: 
+          distribution: "temurin" 
+          java-version: "17"
+
       - name: Cache Android SDK/NDK downloads (safe to reuse across spec changes)
         uses: actions/cache@v4
         with:
@@ -54,7 +60,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y \
-            git zip unzip openjdk-17-jdk python3-pip autoconf libtool \
+            git zip unzip python3-pip autoconf libtool \
             pkg-config zlib1g-dev libncurses5 libncurses5-dev libtinfo5 \
             cmake libffi-dev libssl-dev automake build-essential
           pip install --upgrade pip
